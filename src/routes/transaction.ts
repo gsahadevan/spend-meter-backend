@@ -1,8 +1,39 @@
-import { Request, Response } from "express";
-import express from "express";
-import Transaction from "../schemas/transaction-schema";
+import { Request, Response, Router } from "express";
+import Transaction from "../models/transaction";
 
-const router = express.Router();
+const router = Router();
+
+router.get("/haha", (req: Request, res: Response) => {
+    Transaction.aggregate([
+        { $group: {
+            _id: "$merchant",
+            count: { $sum: 1 }
+        }}, { $sort: { count: -1}}
+    ], function (err: any, result: any) {
+        if (err) {
+            console.log(err);
+            return;
+        }
+        console.log(result);
+        res.send(result);
+    });
+});
+
+router.get("/hehe", (req: Request, res: Response) => {
+    Transaction.aggregate([
+        { $group: {
+            _id: "$account",
+            sum: { $sum: "$amount" }
+        }}, { $sort: { count: -1}}
+    ], function (err: any, result: any) {
+        if (err) {
+            console.log(err);
+            return;
+        }
+        console.log(result);
+        res.send(result);
+    });
+});
 
 router.get("/", function(req, res) {
     Transaction.find(function(err, resp) {
@@ -21,8 +52,8 @@ router.post("/", (req: Request, res: Response) => {
     });
 });
 
-router.get("/:id", function(req, res) {
-    Transaction.findById(req.params.id, function(err, resp) {
+router.get("/:id", function(req: any, res: any) {
+    Transaction.findById(req.params.id, function(err: any, resp: any) {
         if (err) {
             res.send(err);
         } else {

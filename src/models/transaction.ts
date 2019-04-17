@@ -1,10 +1,30 @@
-interface ITransaction {
-    amount: number,
-    merchant: string,
-    timestamp: string,
-    balance_amount: number,
-    currency: string,
-    account: string
-};
+import { Document, Schema, connect, model } from "mongoose";
+import Transaction from "../interfaces/transaction";
 
-export = ITransaction;
+const uri: string = "mongodb://127.0.0.1:27017/spendmeter";
+
+connect(uri, { useNewUrlParser: true }, (err: any) => {
+  if (err) {
+    console.log(err.message);
+  } else {
+    console.log("Succesfully Connected!");
+  }
+});
+
+interface TransactionModel extends Transaction, Document {}
+
+const TransactionSchema: Schema = new Schema({
+    amount: Number,
+    merchant: String,
+    timestamp: String,
+    balance_amount: Number,
+    currency: String,
+    account: String
+}, {
+    timestamps: {
+     createdAt: true,
+     updatedAt: true,
+   },
+});
+
+export default model<TransactionModel>('transactions', TransactionSchema);
