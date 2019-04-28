@@ -8,6 +8,7 @@ import transaction from "./routes/transaction";
 const log = log4js.getLogger("server");
 
 const app = express();
+app.use(express.json());
 app.set("port", process.env.port || 3000);
 
 app.use(log4js.connectLogger(log4js.getLogger("http"), { level: 'auto' }));

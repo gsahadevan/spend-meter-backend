@@ -4,7 +4,8 @@ interface Transaction {
     timestamp: string,
     balance_amount: number,
     currency: string,
-    account: string
+    account: string,
+    category: string
 };
 
 export = Transaction;

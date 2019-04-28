@@ -14,7 +14,6 @@ router.get("/haha", (req: Request, res: Response) => {
             console.log(err);
             return;
         }
-        console.log(result);
         res.send(result);
     });
 });
@@ -27,17 +26,15 @@ router.get("/hehe", (req: Request, res: Response) => {
         }}, { $sort: { count: -1}}
     ], function (err: any, result: any) {
         if (err) {
-            console.log(err);
             return;
         }
-        console.log(result);
         res.send(result);
     });
 });
 
 router.get("/", function(req, res) {
-    Transaction.find(function(err, resp) {
-        res.send(resp);
+    Transaction.find(function(err, transactions) {
+        res.send(transactions);
     });
 });
 
@@ -53,23 +50,23 @@ router.post("/", (req: Request, res: Response) => {
 });
 
 router.get("/:id", function(req: any, res: any) {
-    Transaction.findById(req.params.id, function(err: any, resp: any) {
+    Transaction.findById(req.params.id, function(err: any, transaction: any) {
         if (err) {
             res.send(err);
         } else {
-            res.send(resp);
+            res.send(transaction);
         }
     });
 });
 
 router.put("/:id", (req: Request, res: Response) => {
     var req_transaction = new Transaction(req.body);
-    Transaction.findByIdAndUpdate(req.params.id, req_transaction,
+    Transaction.findOneAndUpdate({ _id: req.params.id }, req_transaction, {new: true},
         (err: any, transaction: any) => {
             if (err) {
                 res.send(err);
             } else {
-                res.send("Successfully Updated Transaction!");
+                res.send(transaction);
             }
         });
 });

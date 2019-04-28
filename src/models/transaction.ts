@@ -3,7 +3,7 @@ import Transaction from "../interfaces/transaction";
 
 const uri: string = "mongodb://127.0.0.1:27017/spendmeter";
 
-connect(uri, { useNewUrlParser: true }, (err: any) => {
+connect(uri, { useNewUrlParser: true, useFindAndModify: false }, (err: any) => {
   if (err) {
     console.log(err.message);
   } else {
@@ -19,7 +19,8 @@ const TransactionSchema: Schema = new Schema({
     timestamp: String,
     balance_amount: Number,
     currency: String,
-    account: String
+    account: String,
+    category: String
 }, {
     timestamps: {
      createdAt: true,
