@@ -12,7 +12,7 @@ class App {
     public indexRouter: IndexRouter = new IndexRouter();
     public transactionRouter: TransactionRouter = new TransactionRouter();
 
-    public mongoUrl: string = "mongodb://127.0.0.1:27017/spendmeter";
+    public configuration: any = require("../config/config.json")[process.env.NODE_ENV || 'development'];
 
     constructor() {
         this.config();
@@ -37,11 +37,11 @@ class App {
 
     private mongoSetup(): void {
         mongoose.Promise = global.Promise;
-        mongoose.connect(this.mongoUrl, { useNewUrlParser: true, useFindAndModify: false }, (err: any) => {
+        mongoose.connect(this.configuration.MONGO_URI, { useNewUrlParser: true, useFindAndModify: false }, (err: any) => {
             if (err) {
                 console.log(err.message);
             } else {
-                console.log("Succesfully Connected!");
+                console.log("Succesfully Connected to Mongo DB Instance!");
             }
         });
     }

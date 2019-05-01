@@ -1,0 +1,11 @@
+{
+    "development": {
+        "MONGO_URI": "mongodb://127.0.0.1:27017/spendmeter"
+    },
+    "production": {
+        "MONGO_URI": "mongodb://127.0.0.1:27017/spendmeter"
+    },
+    "test": {
+        "MONGO_URI": "mongodb://127.0.0.1:27017/spendmeter-test"
+    }
+}
